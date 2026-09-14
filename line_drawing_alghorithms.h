@@ -1,8 +1,5 @@
 #pragma once
 #include "tgaimage.h"
-#include <cmath>
-#include <cstdlib>
-#include <ctime>
 
 void line(int ax, int ay, int bx, int by, TGAImage& framebuffer, TGAColor color);
 void line2(int ax, int ay, int bx, int by, TGAImage& framebuffer, TGAColor color);
