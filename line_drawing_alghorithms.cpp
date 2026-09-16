@@ -22,13 +22,13 @@ void line2(int ax, int ay, int bx, int by, TGAImage& framebuffer, TGAColor color
 void unoptimized_line(int ax, int ay, int bx, int by, TGAImage& framebuffer, TGAColor color)
 {
     bool steep = std::abs(ax - bx) < std::abs(ay - by);
-    if(ax > bx){ 
-        std::swap(ax, bx);
-        std::swap(ay, by);
-    }
     if(steep){
         std::swap(ax, ay);
         std::swap(bx, by);
+    }
+    if(ax > bx){ 
+        std::swap(ax, bx);
+        std::swap(ay, by);
     }
     for(int xt = ax; xt <= bx; xt++){
         float t = (xt - ax) / static_cast<float>((bx - ax));
@@ -43,13 +43,13 @@ void unoptimized_line(int ax, int ay, int bx, int by, TGAImage& framebuffer, TGA
 }
 void optimized_line(int ax, int ay, int bx, int by, TGAImage& framebuffer, TGAColor color){
     bool steep = std::abs(ax - bx) < std::abs(ay - by);
-    if(ax > bx){ 
-        std::swap(ax, bx);
-        std::swap(ay, by);
-    }
     if(steep){
         std::swap(ax, ay);
         std::swap(bx, by);
+    }
+    if(ax > bx){ 
+        std::swap(ax, bx);
+        std::swap(ay, by);
     }
     int yt = ay;
     for(int xt = ax; xt <= bx; xt++){
@@ -65,13 +65,13 @@ void optimized_line(int ax, int ay, int bx, int by, TGAImage& framebuffer, TGACo
 void optimized_line2(int ax, int ay, int bx, int by, TGAImage& framebuffer, TGAColor color){
     bool steep = std::abs(ax - bx) < std::abs(ay - by);
     float error;
-    if(ax > bx){ 
-        std::swap(ax, bx);
-        std::swap(ay, by);
-    }
     if(steep){
         std::swap(ax, ay);
         std::swap(bx, by);
+    }
+    if(ax > bx){ 
+        std::swap(ax, bx);
+        std::swap(ay, by);
     }
     int yt = ay;
     for(int xt = ax; xt <= bx; xt++){
@@ -91,13 +91,13 @@ void optimized_line2(int ax, int ay, int bx, int by, TGAImage& framebuffer, TGAC
 void Bresenham(int ax, int ay, int bx, int by, TGAImage& framebuffer, TGAColor color){
     bool steep = std::abs(ax - bx) < std::abs(ay - by);
     int ierror = 0;
-    if(ax > bx){ 
-        std::swap(ax, bx);
-        std::swap(ay, by);
-    }
     if(steep){
         std::swap(ax, ay);
         std::swap(bx, by);
+    }
+    if(ax > bx){ 
+        std::swap(ax, bx);
+        std::swap(ay, by);
     }
     int yt = ay;
     for(int xt = ax; xt <= bx; xt++){
@@ -116,13 +116,13 @@ void Bresenham(int ax, int ay, int bx, int by, TGAImage& framebuffer, TGAColor c
 void Bresenham2(int ax, int ay, int bx, int by, TGAImage& framebuffer, TGAColor color){
     bool steep = std::abs(ax - bx) < std::abs(ay - by);
     int ierror = 0;
-    if(ax > bx){ 
-        std::swap(ax, bx);
-        std::swap(ay, by);
-    }
     if(steep){
         std::swap(ax, ay);
         std::swap(bx, by);
+    }
+    if(ax > bx){ 
+        std::swap(ax, bx);
+        std::swap(ay, by);
     }
     int yt = ay;
     for(int xt = ax; xt <= bx; xt++){
