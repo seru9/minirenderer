@@ -41,3 +41,6 @@ Model::Model(std::string filename){
         }
     }
 }
+Model::Model(){
+    
+}
