@@ -1,7 +1,7 @@
 #include <ctime>
 #include "geometry.h"
 #include "tgaimage.h"
-#include "line_drawing_alghorithms.h"
+#include "shapes_drawing_alghorithms.h"
 #include "model.h"
 
 constexpr TGAColor white   = {255, 255, 255, 255}; // attention, BGRA order

@@ -1,6 +1,6 @@
 #include <cmath>
 #include <cstdlib>
-#include "line_drawing_alghorithms.h"
+#include "shapes_drawing_alghorithms.h"
 void line(int ax, int ay, int bx, int by, TGAImage& framebuffer, TGAColor color)
 {
     for(float t = 0.0; t < 1.0; t += 0.02){
@@ -135,4 +135,9 @@ void Bresenham2(int ax, int ay, int bx, int by, TGAImage& framebuffer, TGAColor 
         yt += (by > ay ? 1 : -1) * (ierror > bx - ax); //big change (not if)
         ierror -= 2 * (bx-ax)   * (ierror > bx - ax);
     }
+}
+void triangle(int ax, int ay, int bx, int by, int cx, int cy, TGAImage &framebuffer, TGAColor color){
+    Bresenham2(ax, ay, bx, by, framebuffer, color);
+    Bresenham2(bx, by, cx, cy, framebuffer, color);
+    Bresenham2(cx, cy, ax, ay, framebuffer, color);
 }
