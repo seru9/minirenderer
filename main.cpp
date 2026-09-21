@@ -11,13 +11,17 @@ constexpr TGAColor red     = {  0,   0, 255, 255};
 constexpr TGAColor blue    = {255, 128,  64, 255};
 constexpr TGAColor yellow  = {  0, 200, 255, 255};
 
-constexpr int width  = 3000;
-constexpr int height = 3000;
+constexpr int width  = 800;
+constexpr int height = 800;
 
 int main(int argc, char** argv) {
     TGAImage framebuffer(width, height, TGAImage::RGB);
-    std::srand(std::time({}));
-    draw("diablo3_pose.obj", width, height, framebuffer, white);
-
+    TGAImage     zbuffer(width, height, TGAImage::GRAYSCALE);
+    int ax = 17, ay =  4, az =  13;
+    int bx = 55, by = 39, bz = 128;
+    int cx = 23, cy = 59, cz = 255;
+    draw("diablo3_pose.obj",width, height, framebuffer, zbuffer, red);
+    framebuffer.write_tga_file("framebuffer.tga");
+    zbuffer.write_tga_file("zbuffer.tga");
     return 0;
 }
