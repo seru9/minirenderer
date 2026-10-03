@@ -21,7 +21,7 @@ endif()
 
 find_package(OpenMP COMPONENTS CXX)
 
-set(SOURCES main.cpp tgaimage.cpp shapes_drawing_alghorithms.cpp model.cpp drawing_utils.cpp)
+set(SOURCES main.cpp tgaimage.cpp shapes_drawing_alghorithms.cpp model.cpp drawing_utils.cpp our_gl.cpp)
 
 add_executable(${PROJECT_NAME} ${SOURCES})
 target_link_libraries(${PROJECT_NAME} PRIVATE $<$<BOOL:${OpenMP_CXX_FOUND}>:OpenMP::OpenMP_CXX>)

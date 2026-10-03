@@ -84,7 +84,9 @@ template<typename T> struct vec<T, 4> {
 
 typedef vec<double, 2> double_vec2;
 typedef vec<double, 3> double_vec3;
-typedef vec<double, 4> double_vec4;
+typedef vec<double, 2> vec2;
+typedef vec<double, 3> vec3;
+typedef vec<double, 4> vec4;
 
 template<typename T, int n> T norm(const vec<T, n>& v) {
     return std::sqrt(v*v);
@@ -100,6 +102,7 @@ inline double_vec3 cross(const double_vec3 &v1, const double_vec3 &v2) {
 inline int_vec3 cross(const int_vec3 &v1, const int_vec3 &v2) {
     return {v1.y*v2.z - v1.z*v2.y, v1.z*v2.x - v1.x*v2.z, v1.x*v2.y - v1.y*v2.x};
 }
+
 template<typename T, int n> struct dt;
 
 template<typename T, int nrows,int ncols> struct mat {

@@ -44,3 +44,10 @@ Model::Model(std::string filename){
 Model::Model(){
     
 }
+vec3 Model::vert(const int i) const {
+    return points[i];
+}
+
+vec3 Model::vert(const int iface, const int nthvert) const {
+    return points[faces[iface][nthvert]];
+}
