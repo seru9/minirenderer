@@ -16,9 +16,10 @@ struct PhongShader : IShader {
     const Model &model;
     TGAColor color = {};
     vec3 tri[3];  // triangle in eye coordinates
-    vec3 light;
+    vec3 l;
     vec3 varying_nrm[3];
-    PhongShader(vec3 light, const Model &m) : model(m), light(light) {
+    PhongShader(vec3 light, const Model &m) : model(m) {
+        l = normalized((ModelView*vec4{light.x, light.y, light.z, 0.}).xyz());
     }
 
     virtual vec4 vertex(const int face, const int vert) {
@@ -39,12 +40,12 @@ struct PhongShader : IShader {
         vec3 n = normalized(varying_nrm[0] * bar[0] +
                             varying_nrm[1] * bar[1] +
                             varying_nrm[2] * bar[2]);             // per-vertex normal interpolation
-        vec3 r = normalized(n  * (n * light) * 2 - light);
+        vec3 r = normalized(n  * (n * l) * 2 - l);
 
         const double ambient = .3;
-        const double diffuse = std::max(.0, n * light);
+        const double diffuse = std::max(.0, n * l);
         const double specular = std::pow(std::max(r.z, 0.), 35);
-        const double intensity = std::clamp(ambient + .4 * specular + .9 * diffuse, 0., 1.);
+        const double intensity = std::clamp(ambient + .9 * specular + .4 * diffuse, 0., 1.);
 
         for (int d : {0, 1, 2}) {
             col[d] = static_cast<uint8_t>(std::round(std::clamp(col[d] * intensity, 0., 255.)));
