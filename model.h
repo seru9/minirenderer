@@ -7,7 +7,9 @@
 class Model{
     private:
         std::vector<vec3> points = {};
+        std::vector<vec3> norms = {};
         std::vector<int_vec3> faces = {};
+        std::vector<int_vec3> faces_nrm = {};
     public:
         Model();
         Model(std::string file);
@@ -17,6 +19,6 @@ class Model{
         int npoints() const { return points.size(); }
         vec3 vert(const int i) const;
         vec3 vert(const int iface, const int nthvert) const;
-
+        vec3 normal(const int iface, const int nthvert) const;
         
 };

@@ -23,21 +23,50 @@ Model::Model(std::string filename){
             double x, y, z;
             ss >> x >> y >> z;
             points.push_back({x, y, z});
-        }
+        }else if (type == "vn") {
+            vec3 n;
+            for (int i : {0,1,2}) ss >> n[i];
+            norms.push_back(normalized(n));}
         else if (type == "f") { // faces
             std::string token1, token2, token3;
             ss >> token1 >> token2 >> token3;
 
-            auto parse_vertex = [](const std::string& token) {
-                size_t slash_pos = token.find('/');
-                std::string v_str = (slash_pos == std::string::npos) ? token : token.substr(0, slash_pos);
-                return std::stoi(v_str) - 1; // Konwersja na int i przesunięcie na indeksowanie od 0
+            auto parse_face_token = [](const std::string& token, int& v_out, int& n_out) {
+                size_t first_slash = token.find('/');
+                if (first_slash == std::string::npos) {
+                    // Format: v
+                    v_out = std::stoi(token) - 1;
+                    n_out = -1;
+                    return;
+                }
+
+                // Wierzchołek jest przed pierwszym slashem
+                v_out = std::stoi(token.substr(0, first_slash)) - 1;
+
+                size_t second_slash = token.find('/', first_slash + 1);
+                if (second_slash == std::string::npos) {
+                    // Format: v/vt (brak normalnej)
+                    n_out = -1;
+                } else {
+                    // Format: v//vn lub v/vt/vn (normalna jest po drugim slashu)
+                    std::string n_str = token.substr(second_slash + 1);
+                    if (!n_str.empty()) {
+                        n_out = std::stoi(n_str) - 1;
+                    } else {
+                        n_out = -1;
+                    }
+                }
             };
 
-            int v1 = parse_vertex(token1);
-            int v2 = parse_vertex(token2);
-            int v3 = parse_vertex(token3);
+            int v1, v2, v3;
+            int n1, n2, n3;
+
+            parse_face_token(token1, v1, n1);
+            parse_face_token(token2, v2, n2);
+            parse_face_token(token3, v3, n3);
+
             faces.push_back({v1, v2, v3});
+            faces_nrm.push_back({n1, n2, n3});
         }
     }
 }
@@ -50,4 +79,7 @@ vec3 Model::vert(const int i) const {
 
 vec3 Model::vert(const int iface, const int nthvert) const {
     return points[faces[iface][nthvert]];
+}
+vec3 Model::normal(const int iface, const int nthvert) const {
+    return norms[faces[iface][nthvert]];
 }
