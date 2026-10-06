@@ -4,7 +4,8 @@ A from-scratch software 3D renderer written in C++ — no OpenGL, no GPU, no gra
 
 The project follows the well-known [tinyrenderer](https://github.com/ssloy/tinyrenderer) course by Dmitry V. Sokolov and builds up the classic rendering pipeline one stage at a time.
 
-![Rendered model](docs/render.png)
+![Rendered model 1](docs/render_african_head.png)
+![Rendered model 2](docs/render_diablo3.png.png)
 
 ## Features
 
