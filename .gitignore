@@ -1,6 +1,18 @@
+# Build output
 *.out
 build/
 CMakeFiles/
-obj/
+
+# Rendered output image
 framebuffer.tga
+
+# Screenshots (except the one embedded in the README)
 *.png
+!docs/*.png
+
+# Editor / tooling
+.vscode/
+.cache/
+
+# Personal notes
+notes/
