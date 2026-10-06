@@ -67,10 +67,6 @@ The result is written to `framebuffer.tga` in the current directory. View it wit
 3. For every triangle in the model, vertices are transformed to clip space, then rasterized using barycentric coordinates.
 4. Per-pixel depth is tested against the z-buffer, and the `PhongShader` computes the final color from the interpolated normal and light direction.
 
-## License
-
-No license has been chosen yet — all rights reserved by default. Feel free to contact the author if you'd like to use this code.
-
 ## Acknowledgements
 
 Based on the [tinyrenderer](https://github.com/ssloy/tinyrenderer) course by Dmitry V. Sokolov.
