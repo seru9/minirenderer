@@ -5,8 +5,8 @@ mat<double, 4,4> ModelView, Viewport, Perspective; // "OpenGL" state matrices
 std::vector<double> zbuffer;
 
 void lookat(const vec3 eye, const vec3 center, const vec3 up) {
-    vec3 n = normalized(eye-center);
-    vec3 l = normalized(cross(up,n));
+    vec3 n = normalized(eye-center); // orientation of camera
+    vec3 l = normalized(cross(up,n)); // orthogonal to the 
     vec3 m = normalized(cross(n, l));
     ModelView = mat<double, 4,4>{{{l.x,l.y,l.z,0}, {m.x,m.y,m.z,0}, {n.x,n.y,n.z,0}, {0,0,0,1}}} *
                 mat<double, 4,4>{{{1,0,0,-center.x}, {0,1,0,-center.y}, {0,0,1,-center.z}, {0,0,0,1}}};
@@ -27,7 +27,7 @@ void rasterize(const Triangle &clip, const IShader &shader, TGAImage &framebuffe
 
     mat<double, 3,3> ABC = {{ {screen[0].x, screen[0].y, 1.}, {screen[1].x, screen[1].y, 1.}, {screen[2].x, screen[2].y, 1.} }};
     if (ABC.det()<1) return; // backface culling + discarding triangles that cover less than a pixel
-
+    // other said what if a field of ABC is smaller than 0 (then we don't rasterize such triangle)
     auto [bbminx,bbmaxx] = std::minmax({screen[0].x, screen[1].x, screen[2].x}); // bounding box for the triangle
     auto [bbminy,bbmaxy] = std::minmax({screen[0].y, screen[1].y, screen[2].y}); // defined by its top left and bottom right corners
 #pragma omp parallel for
@@ -35,7 +35,7 @@ void rasterize(const Triangle &clip, const IShader &shader, TGAImage &framebuffe
         for (int y=std::max<int>(bbminy, 0); y<=std::min<int>(bbmaxy, framebuffer.height()-1); y++) {
             vec3 bc = ABC.invert_transpose() * vec3{static_cast<double>(x), static_cast<double>(y), 1.}; // barycentric coordinates of {x,y} w.r.t the triangle
             if (bc.x<0 || bc.y<0 || bc.z<0) continue;                                                    // negative barycentric coordinate => the pixel is outside the triangle
-            double z = bc * vec3{ ndc[0].z, ndc[1].z, ndc[2].z };
+            double z = bc * vec3{ ndc[0].z, ndc[1].z, ndc[2].z }; // approximate depth of the pixel (x,y)
             if (z <= zbuffer[x+y*framebuffer.width()]) continue;
             zbuffer[x+y*framebuffer.width()] = z;
             auto [discard, color] = shader.fragment(bc);

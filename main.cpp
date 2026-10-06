@@ -1,3 +1,4 @@
+#include <iostream>
 #include <algorithm>
 #include <cmath>
 #include <cstdint>
@@ -18,30 +19,42 @@ struct PhongShader : IShader {
     vec3 tri[3];  // triangle in eye coordinates
     vec3 l;
     vec3 varying_nrm[3];
+    // vec4 l;
+    // vec2 varying_uv[3];
+
     PhongShader(vec3 light, const Model &m) : model(m) {
         l = normalized((ModelView*vec4{light.x, light.y, light.z, 0.}).xyz());
+        // l = normalized((ModelView*vec4{light.x, light.y, light.z, 0.}));
     }
 
-    virtual vec4 vertex(const int face, const int vert) {
+    virtual vec4 vertex(const int face, const int vert) { // Start of the pipeline vertex is scaled/raoteted and shifted to our eye 
+        // Then Perspective is implemented using homogenous coordinates
+        // normal vectors also included
         vec3 v = model.vert(face, vert);             // current vertex in object coordinates
         vec4 gl_Position = ModelView * vec4{v.x, v.y, v.z, 1.};
         vec3 n = model.normal(face, vert);
         varying_nrm[vert] = (ModelView.invert_transpose() * vec4{n.x, n.y, n.z, 0.}).xyz(); // don't understand
-        tri[vert] = gl_Position.xyz();                            // in eye coordinates
+        // tri[vert] = gl_Position.xyz();                            // in eye coordinates
+        // varying_uv[vert] = model.uv(face, vert);
+        // vec4 gl_Position = ModelView * model.vert(face, vert);
         return Perspective * gl_Position;                         // in clip coordinates
     }
 
     virtual std::pair<bool,TGAColor> fragment(const vec3 bar) const {
         TGAColor col = {255, 255, 255, 255};
-        vec3 A = tri[0];
-        vec3 B = tri[1];
-        vec3 C = tri[2];
+
         // vec3 n = normalized(cross(B - A, C - A));
-        vec3 n = normalized(varying_nrm[0] * bar[0] +
+        // normal vector (that shows the direction of the curve)
+        // by the fact that we're actually calculating the cosa in f.e diffuse
+        // vector n should be normalized
+        vec3 n = normalized(varying_nrm[0] * bar[0] + 
                             varying_nrm[1] * bar[1] +
                             varying_nrm[2] * bar[2]);             // per-vertex normal interpolation
-        vec3 r = normalized(n  * (n * l) * 2 - l);
-
+        vec3 r = normalized(n  * (n * l) * 2 - l); // direction of light reflection
+        
+        // vec2 uv = varying_uv[0] * bar[0] + varying_uv[1] * bar[1] + varying_uv[2] * bar[2];
+        // vec4 n = normalized(ModelView.invert_transpose() * model.normal(uv));
+        // vec4 r = normalized(n * (n * l)*2 - l);
         const double ambient = .3;
         const double diffuse = std::max(.0, n * l);
         const double specular = std::pow(std::max(r.z, 0.), 35);
