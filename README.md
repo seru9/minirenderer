@@ -4,8 +4,8 @@ A from-scratch software 3D renderer written in C++ — no OpenGL, no GPU, no gra
 
 The project follows the well-known [tinyrenderer](https://github.com/ssloy/tinyrenderer) course by Dmitry V. Sokolov and builds up the classic rendering pipeline one stage at a time.
 
-![Rendered model 1](docs/render_african_head.png)
-![Rendered model 2](docs/render_diablo3.png.png)
+![Rendered model 1](docs/render_both.png)
+
 
 ## Features
 
@@ -18,7 +18,8 @@ The project follows the well-known [tinyrenderer](https://github.com/ssloy/tinyr
 - **Backface culling** and barycentric-coordinate rasterization with a bounding box
 - **OpenMP** parallelism over scanlines (optional, detected automatically)
 - **TGA** image output
-
+- **Detailed textures** TO DO
+- **Colored object** TO DO
 ## Requirements
 
 - A C++20 compiler (GCC, Clang or MSVC)
