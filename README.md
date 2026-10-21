@@ -2,8 +2,6 @@
 
 A from-scratch software 3D renderer written in C++ — no OpenGL, no GPU, no graphics libraries. Everything from vertex transformation to per-pixel shading is implemented manually on the CPU.
 
-The project follows the well-known [tinyrenderer](https://github.com/ssloy/tinyrenderer) course by Dmitry V. Sokolov and builds up the classic rendering pipeline one stage at a time.
-
 ![Rendered model 1](docs/render_both.png)
 
 
@@ -71,4 +69,4 @@ The result is written to `framebuffer.tga` in the current directory. View it wit
 
 ## Acknowledgements
 
-Based on the [tinyrenderer](https://github.com/ssloy/tinyrenderer) course by Dmitry V. Sokolov.
+Based on the course by Dmitry V. Sokolov.
